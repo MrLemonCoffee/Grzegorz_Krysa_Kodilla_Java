@@ -1,21 +1,26 @@
 package com.kodilla.patterns2.facade;
 
+import com.kodilla.patterns2.aop.calculator.CalculatorTestSuite;
 import com.kodilla.patterns2.facade.api.ItemDto;
 import com.kodilla.patterns2.facade.api.OrderDto;
 import com.kodilla.patterns2.facade.api.OrderFacade;
 import com.kodilla.patterns2.facade.api.OrderProcessingException;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
-
 @SpringBootTest
-class ShopServiceTestSuite {
+public class ShopServiceTestSuite {
+
+
+    @Autowired
+    private OrderFacade orderFacade;
 
     @Autowired
     private ShopService shopService;
-
     @Test
     void testShopServiceSubmitOrder() {
         long orderId = shopService.openOrder(1L);
@@ -59,9 +64,6 @@ class ShopServiceTestSuite {
             System.out.println("Access denied. User is not authenticated.");
         }
     }
-    @Autowired
-    private OrderFacade orderFacade;
-
     @Test
     public void testShopFacade() {
         OrderDto order = new OrderDto();
@@ -72,7 +74,6 @@ class ShopServiceTestSuite {
         try {
             orderFacade.processOrder(order, 1L);
         } catch (OrderProcessingException e) {
-            // business exception - should be handled in real application
         }
     }
 }
